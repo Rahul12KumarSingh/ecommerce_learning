@@ -2,28 +2,36 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { api, setAuthToken } from "../services/api";
 import "./Login.css";
+import { login } from "../services/authServices";
+import { authContext } from "../store/authContex";
+import { useContext } from "react";
 
-const Login = ({ setUser }) => {
+const Login = () => {
+    const authCtx = useContext(authContext);
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        try {
-            const res = await api.post("/auth/login", { email, password });
 
-            console.log(res.data);
-            
-            setAuthToken(res.data.token);
-            setUser(res.data.user);
+        const payload = {
+            email,
+            password,
+        };
 
-            navigate("/"); // Redirect to home page after login
-        } catch (error) {
-            alert(error.response?.data?.error || "Login failed.");
+        const data = login(payload);
+
+        if (!data) {
+            return;
         }
+        console.log("login response data : ", data); 
+        authCtx.authenticate(data.user , data.token);
+        navigate("/home");
     };
 
+    //designing part....
     return (
         <div className="login-container">
             <h2 className="login-title">Login</h2>

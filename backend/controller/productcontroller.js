@@ -4,13 +4,20 @@ const Product = require("../models/product");
 // Add a new product
 exports.addProduct = async (req, res) => {
     try {
-        const { name, price } = req.body;
+        const { name, productImg , productDescription  , price   } = req.body;
+
+
         if (!name || !price) {
             return res.status(400).json({ error: "Product name and price are required." });
         }
 
-        const product = await Product.create({ name, price });
+
+        const product = await Product.create({ name , productImg ,  productDescription , price });
+
+
         res.status(201).json({ message: "Product added successfully", product });
+
+
     } catch (error) {
         res.status(500).json({ error: error.message });
     }
@@ -35,7 +42,13 @@ exports.deleteProduct = async(req , res)=>{
 
         const {id} = req.params ;
 
-        const product = await Cart.deleteOne({id });
+        if(!id){
+             return res.status(400).json({
+                error : "product id is required!!!" ,
+             })
+        }
+
+        const product = await Product.deleteOne({id });
 
         return res.json({
             message : "product deleted successfully!!!" ,
