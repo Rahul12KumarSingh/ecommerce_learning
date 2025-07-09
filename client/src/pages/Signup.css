@@ -1,4 +1,4 @@
-/* Signup container */
+
 .signup-container {
     max-width: 400px;
     margin: 50px auto;
@@ -9,7 +9,7 @@
     text-align: center;
 }
 
-/* Signup title */
+
 .signup-title {
     font-size: 24px;
     font-weight: bold;
@@ -48,7 +48,6 @@
     background-color: #218838;
 }
 
-/* Login link */
 .login-link {
     margin-top: 10px;
     font-size: 14px;

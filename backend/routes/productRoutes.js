@@ -6,8 +6,8 @@ const router = express.Router();
 const authMiddleware = require("../middleware/authmiddleware");
 const isAdmin = require("../middleware/isAdmin.js");
 
-router.post("/add", authMiddleware ,  addProduct); 
+router.post("/add", authMiddleware ,  isAdmin , addProduct); 
 router.delete("/delete/:id" , authMiddleware , isAdmin , deleteProduct)
-router.get("/" , authMiddleware ,  getAllProducts) ;
+router.get("/" , authMiddleware , getAllProducts) ;
 
 module.exports = router ;

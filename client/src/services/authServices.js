@@ -5,11 +5,11 @@ const login = async (payload) => {
     const endPoint = "/auth/login";
 
     try {
-        const response = await request("post", endPoint, payload , null , null);
+        const response = await request("post", endPoint, payload, null, null);
 
-        return response.data ;
-    } catch (err){
-       return null ;
+        return response.data;
+    } catch (err) {
+        return null;
     }
 
 };
@@ -20,13 +20,13 @@ const register = async (payload) => {
     const endPoint = "/auth/register";
 
     try {
-        const response = await request("post", endPoint, payload ,
-            null , null);
+        const response = await request("post", endPoint, payload,
+           null , null);
 
         const { data } = response;
-        return data ;
+        return data;
     } catch (err) {
-        return null ;
+        return null;
     }
 };
 

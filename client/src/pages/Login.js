@@ -21,7 +21,7 @@ const Login = () => {
             password,
         };
 
-        const data = login(payload);
+        const data = await login(payload);
 
         if (!data) {
             return;

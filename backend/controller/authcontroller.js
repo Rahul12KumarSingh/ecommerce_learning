@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 
 exports.register = async (req, res) => {
-    const { name, email, profileImage, password } = req.body;
+    const { name, email, profileImage, password } = req.body ;
 
     try {
         if (!name || !email || !password) {
@@ -15,9 +15,9 @@ exports.register = async (req, res) => {
 
         const existingUser = await User.findOne({ email });
 
-        console.log("exisiting userInfo : " , existingUser);
+        console.log("exisiting userInfo : ", existingUser);
 
-        if (existingUser) {
+        if(existingUser) {
             return res.status(400).json({
                 success: false,
                 message: "User already exists"

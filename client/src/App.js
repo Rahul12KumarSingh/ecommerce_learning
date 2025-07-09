@@ -5,7 +5,9 @@ import Login from "./pages/Login";
 import Signup from "./pages/Signup";
 import AuthContextProvider from "./store/authContex";
 import { authContext } from "./store/authContex";
-import WelcomeScreen from "./pages/WelcomeScreen";
+import Home from "./pages/Home";
+import CartContextProvider from "./store/cartContext";
+import Cart from "./pages/Cart";
 
 const App = () => {
     const AppScreen = () => {
@@ -14,7 +16,6 @@ const App = () => {
 
         return (
             <Routes>
-                
                 <Route
                     path="/"
                     element={
@@ -30,7 +31,8 @@ const App = () => {
                 {
                     isAuthenticated &&
                     <>
-                        <Route path='/home' element={<WelcomeScreen />} />
+                        <Route path='/home' element={<Home />} />
+                        <Route path='/cart' element={<Cart />} />
                     </>
                 }
 
@@ -48,9 +50,11 @@ const App = () => {
 
     return (
         <AuthContextProvider>
-            <Router>
-                <AppScreen />
-            </Router>
+            <CartContextProvider>
+                <Router>
+                    <AppScreen />
+                </Router>
+            </CartContextProvider>
         </AuthContextProvider>
     );
 };

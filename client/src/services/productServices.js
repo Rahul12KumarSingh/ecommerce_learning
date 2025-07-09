@@ -1,33 +1,42 @@
+const { request } = require("../utils/request");
 
+const getAllProduct = async (payload) => {
+    const headers = {
+        "Authorization": "Bearer " + localStorage.getItem("token"),
+    };
 
-const addProduct = async(payload)=>{
-   
+    const endPoint = "/products";
+
+    try {
+        const response = await request("get", endPoint, payload, headers, null);
+
+        return response.data;
+    } catch (err) {
+        return null;
+    }
 };
 
 
 
-const getAllProduct = async()=>{
+const addToCartApi = async () => {
+    const headers = {
+        "Autherization": "Bearer " + localStorage.getItem("token"),
+    };
+
 
 };
 
+const removeFromCartApi = async () => {
+    const headers = {
+        "Autherization": "Bearer " + localStorage.getItem("token"),
+    };
 
-const deleteProduct = async(id)=>{
-      
-};
-
-const addToCartApi = async()=>{
-
-};
-
-const removeFromCartApi = async()=>{
 
 };
 
 
 module.exports = {
-    addProduct , 
-    getAllProduct ,
-    deleteProduct,
+    getAllProduct,
     addToCartApi,
     removeFromCartApi
 }
