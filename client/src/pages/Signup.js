@@ -5,6 +5,10 @@ import "./Signup.css";
 import { register } from "../services/authServices";
 import { authContext } from "../store/authContex";
 import { useContext } from "react";
+import axios from "axios";
+
+import { ToastContainer, toast } from 'react-toastify';
+
 
 const Signup = () => {
     const authCtx = useContext(authContext);
@@ -14,33 +18,38 @@ const Signup = () => {
     const [profileImage, setProfileImage] = useState("");
     const [password, setPassword] = useState("");
 
-
     //generating the pressigned url for image upload
     const uploadToAws = async (file) => {
-        const fileName = file.name;
-        const fileType = file.type;
+        let fileName = file.name;
+        let fileType = file.type;
 
         try {
-            const response = await api.post("/auth/presigned-url", {
+            const response = await axios.post("http://localhost:5000/api/cloudService/getSignedUrl", {
                 fileName,
                 fileType,
             });
 
-            if (response.status === 200) {
-                const { url } = response.data;
-                await fetch(url, {
-                    method: "PUT",
-                    body: file,
-                    headers: {
-                        "Content-Type": fileType,
-                    },
-                });
-               setProfileImage(url.split("?")[0]) ; 
-            }
-           
-        } catch (error) {
+            console.log("Presigned URL response:", response.data);
+
+
+            const url = response.data.url;
+            fileName = response.data.fileName;
+
+            await axios.put(url, file, {
+                headers: {
+                    "Content-Type": fileType,
+                },
+            });
+
+            const cloudfrontDomain = "https://d2me721pzztcbb.cloudfront.net";
+            const publicUrl = `${cloudfrontDomain}/${fileName}`;
+
+            console.log("File uploaded successfully:", publicUrl);
+
+            setProfileImage(publicUrl);
+        }
+        catch (error) {
             console.error("Error getting presigned URL:", error);
-            throw error;
         }
     }
 
@@ -54,9 +63,8 @@ const Signup = () => {
         const payload = {
             name,
             email,
-            profileImage,
             password,
-            profileImage: profileImage 
+            profileImage: profileImage
         };
 
         const data = await register(payload);
@@ -68,12 +76,24 @@ const Signup = () => {
         }
 
         authCtx.authenticate(data.user, data.token);
+        toast.success("Signup successful!");
         navigate("/home");
     };
 
     //designing part.....
     return (
         <div className="signup-container">
+
+
+            <ToastContainer
+                position="top-center"
+                autoClose={2000}
+                closeOnClick
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="colored"
+            />
 
             <h2 className="signup-title">Signup</h2>
 
@@ -88,7 +108,7 @@ const Signup = () => {
                 <input className="signup-input" type="file" accept="image/*" onChange={(e) => {
                     const file = e.target.files[0];
                     uploadToAws(file)
-                }} required />
+                }} />
 
                 <button className="signup-button" type="submit">Signup</button>
             </form>

@@ -4,7 +4,6 @@ const Product = require("../models/product");
 exports.addToCart = async (req, res) => {
     try {
         const {userId, productId, quantity } = req.body;
-
         const cartItem = await Cart.findOne({ userId, productId });
 
         if (cartItem) {
@@ -15,7 +14,6 @@ exports.addToCart = async (req, res) => {
         }
 
         res.json({message: "Product added to cart"});
-
     } catch (error) {
         res.status(400).json({ error: error.message });
     }

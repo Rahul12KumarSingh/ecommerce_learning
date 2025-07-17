@@ -8,18 +8,25 @@ import { authContext } from "./store/authContex";
 import Home from "./pages/Home";
 import CartContextProvider from "./store/cartContext";
 import Cart from "./pages/Cart";
+import PaymentScreen from "./pages/PaymentScreen";
+import AddProduct from "./pages/AddProduct";
+import Order from "./pages/Order";
 
 const App = () => {
     const AppScreen = () => {
         const authCtx = useContext(authContext);
         const { isAuthenticated } = authCtx;
 
+        console.log("user Info : " , authCtx.user);
+
         return (
             <Routes>
                 <Route
                     path="/"
                     element={
-                        isAuthenticated ? (
+                        isAuthenticated && authCtx.user.role == 1 ? (
+                            <Navigate to="/addProduct" replace />
+                        ) : isAuthenticated ? (
                             <Navigate to="/home" replace />
                         ) : (
                             <Navigate to="/login" replace />
@@ -33,6 +40,9 @@ const App = () => {
                     <>
                         <Route path='/home' element={<Home />} />
                         <Route path='/cart' element={<Cart />} />
+                        <Route path='/payment' element={<PaymentScreen />} />
+                        <Route path='/order' element={<Order />} />
+                        {/* <Route path='*' element={<PageNotFound />} /> */}
                     </>
                 }
 
@@ -42,7 +52,15 @@ const App = () => {
                     <>
                         <Route path='/login' element={<Login />} />
                         <Route path='/signup' element={<Signup />} />
+                        {/* <Route path='*' element={<PageNotFound />} /> */}
                     </>
+                }
+
+                {/* admin Routes */}
+                {
+                    (isAuthenticated && authCtx.user.role == 1 ) && (
+                        <Route path='/addProduct' element={<AddProduct/>} />
+                    )
                 }
             </Routes>
         )

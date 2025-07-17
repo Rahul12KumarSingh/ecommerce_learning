@@ -18,7 +18,9 @@ function AuthContextProvider({ children }) {
       useEffect(() => {
             async function fetchTokenAndUser() {
                   const token = await localStorage.getItem("token");
-                  const user = await localStorage.getItem("user");
+                  const userInfo = await localStorage.getItem("user");
+
+                  const user = userInfo ? JSON.parse(userInfo) : null;
 
                   console.log("token from local storage : ", token);
                   console.log("user from local storage : ", user);

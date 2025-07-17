@@ -2,17 +2,17 @@ import { createContext, useEffect, useState } from "react"
 
 export const cartContext = createContext({
       totalPrice: 0,
-      discountedPrice: 0,
       cartItem: [],
       addtoCart: () => { },
-      removefromCart: () => { }
+      removefromCart: () => { } ,
+      emptyCart: () => { }
 });
 
 
-function CartContextProvider({ children }) {
+function CartContextProvider({ children }){
+      
       const [cartItem, setCartItem] = useState([]);
       const [totalPrice, setTotalPrice] = useState(0);
-      const [discountedPrice, setDiscountedPrice] = useState(0);
 
       useEffect(() => {
             const fetchCartDataFromLocalStorage = () => {
@@ -23,12 +23,10 @@ function CartContextProvider({ children }) {
 
                         setCartItem(parsedCart?.cartItem || []);
                         setTotalPrice(parsedCart?.totalPrice || 0);
-                        setDiscountedPrice(parsedCart?.discountedPrice || 0);
                   }
                   else {
                         setCartItem([]);
                         setTotalPrice(0);
-                        setDiscountedPrice(0);
                   }
             };
 
@@ -39,9 +37,6 @@ function CartContextProvider({ children }) {
       const addtoCart = async (newItem) => {
             setTotalPrice((prev) => prev + newItem.price);
 
-            //giving the 10% discount on the item price....
-            setDiscountedPrice((prev) => prev + (newItem.price * 0.9));
-
             //Check if the item already exists in the cart..
             setCartItem((prev) => [...prev, newItem]);
 
@@ -49,7 +44,6 @@ function CartContextProvider({ children }) {
             localStorage.setItem("cart", JSON.stringify({
                   cartItem: [...cartItem, newItem],
                   totalPrice: totalPrice + newItem.price,
-                  discountedPrice: discountedPrice + (newItem.price * 0.9)
             }));
       }
 
@@ -62,25 +56,29 @@ function CartContextProvider({ children }) {
 
           
             const updatedTotal = totalPrice - removedItem.price;
-            const updatedDiscounted = discountedPrice - (removedItem.price * 0.9);
-
+           
             setCartItem(updatedCart);
             setTotalPrice(updatedTotal);
-            setDiscountedPrice(updatedDiscounted);
-
+           
             localStorage.setItem("cart", JSON.stringify({
                   cartItem: updatedCart,
                   totalPrice: updatedTotal,
-                  discountedPrice: updatedDiscounted
             }));
+      }
+
+      const emptyCart = () => {
+            setCartItem([]);
+            setTotalPrice(0);
+
+            localStorage.removeItem("cart");
       }
 
       const value = {
             totalPrice,
-            discountedPrice,
             cartItem,
             addtoCart,
             removefromCart,
+            emptyCart
       }
 
       return (

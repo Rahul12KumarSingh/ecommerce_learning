@@ -2,16 +2,22 @@ import React, { useEffect, useState, useContext } from 'react';
 import { getAllProduct } from '../services/productServices';
 import { authContext } from '../store/authContex';
 import { cartContext } from '../store/cartContext';
-import './Home.css'; 
+import './Home.css';
 import { useNavigate } from 'react-router-dom';
+import Navbar from '../components/Navbar';
 
+import { ToastContainer, toast } from 'react-toastify';
 
 const Home = () => {
+
+    const notify = (item) => toast.success(`${item.productName} added to cart!`);;
+
+
     const [productList, setProductList] = useState([]);
     const cartCtx = useContext(cartContext);
     const authCtx = useContext(authContext);
 
-    const navigate = useNavigate(); 
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchProducts = async () => {
@@ -24,17 +30,19 @@ const Home = () => {
 
     return (
         <div className="home-container">
-            <header className="home-header">
-                <div className="user-info">
-                    Welcome, <span className="username">{authCtx.user.name}</span>
-                </div>
-                <div className="cart-info"
-                    onClick={() => navigate('/cart')} 
-                    style={{ cursor: 'pointer' }} 
-                >
-                    🛒 Cart Items: <span className="cart-count">{cartCtx.cartItem.length}</span>
-                </div>
-            </header>
+
+            <Navbar />
+
+
+            <ToastContainer
+                position="top-center"
+                autoClose={2000}
+                closeOnClick
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="colored"
+            />
 
             <div className="product-grid">
                 {productList.map((item) => (
@@ -43,7 +51,7 @@ const Home = () => {
                         <h3 className="product-name">{item.productName}</h3>
                         <p className="product-desc">{item.productDescription}</p>
                         <p className="product-price">Price: ₹{item.price}</p>
-                        <button className="add-btn" onClick={() => cartCtx.addtoCart(item)}>
+                        <button className="add-btn" onClick={() => { cartCtx.addtoCart(item); notify(item) }}>
                             Add to Cart
                         </button>
                     </div>

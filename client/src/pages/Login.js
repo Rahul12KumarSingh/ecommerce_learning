@@ -6,6 +6,9 @@ import { login } from "../services/authServices";
 import { authContext } from "../store/authContex";
 import { useContext } from "react";
 
+import { ToastContainer, toast } from 'react-toastify';
+
+
 const Login = () => {
     const authCtx = useContext(authContext);
 
@@ -26,14 +29,24 @@ const Login = () => {
         if (!data) {
             return;
         }
-        console.log("login response data : ", data); 
-        authCtx.authenticate(data.user , data.token);
+        console.log("login response data : ", data);
+        authCtx.authenticate(data.user, data.token);
+        toast.success("Login successful!");
         navigate("/home");
     };
 
     //designing part....
     return (
         <div className="login-container">
+            <ToastContainer
+                position="top-center"
+                autoClose={2000}
+                closeOnClick
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="colored"
+            />
             <h2 className="login-title">Login</h2>
             <form className="login-form" onSubmit={handleSubmit}>
                 <input className="login-input" type="email" placeholder="Email" onChange={(e) => setEmail(e.target.value)} required />
