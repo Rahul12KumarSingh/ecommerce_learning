@@ -24,7 +24,7 @@ const BraintreeDropIn = ({ onSuccess }) => {
         const initDropin = async () => {
             try {
 
-                const res = await fetch('http://localhost:5000/api/payment/token', {
+                const res = await fetch('https://ecommerce-learning-1.onrender.com/api/payment/token', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ cartItems, token }),
@@ -56,7 +56,7 @@ const BraintreeDropIn = ({ onSuccess }) => {
             setPaymentInitialized(true);
             const { nonce } = await dropInInstance.requestPaymentMethod();
 
-            const res = await fetch('http://localhost:5000/api/payment/checkout', {
+            const res = await fetch('https://ecommerce-learning-1.onrender.com/api/payment/checkout', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ token, nonce, sessionId }),
