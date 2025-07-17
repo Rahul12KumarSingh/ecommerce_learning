@@ -9,7 +9,7 @@ const PaymentScreen = () => {
     if (paid) {
       setTimeout(() => {
         window.location.href = '/order'; 
-      }, 1000);
+      }, 100000);
     }
 
   }, [paid])

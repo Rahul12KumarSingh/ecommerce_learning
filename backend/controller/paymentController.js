@@ -69,6 +69,8 @@ const checkoutController = async (req, res) => {
     if (!nonce || !sessionId || !sessionStore.has(sessionId)) {
         return res.status(400).json({ success: false, message: 'Invalid session or nonce' });
     }
+     
+    console.log("payment processing started....");
 
     const session = sessionStore.get(sessionId);
 
@@ -98,7 +100,6 @@ const checkoutController = async (req, res) => {
             });
 
 
-
             sessionStore.delete(sessionId);
 
             res.status(200).json({
@@ -107,6 +108,9 @@ const checkoutController = async (req, res) => {
                 message: 'Payment successful and order created.',
 
             });
+
+            console.log("paymemt processing...");
+
         } else {
             res.status(400).json({
                 success: false,
