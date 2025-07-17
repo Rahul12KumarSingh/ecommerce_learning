@@ -37,7 +37,7 @@ export default function Order() {
                         <div className="order-header">Order ID: {order._id}</div>
                         <p className="order-info">Customer Name: {order.userId.name}</p>
                         <p className="order-info">Total Amount: ₹{order.amount}</p>
-                        <p className="order-info">Status: {order.status}</p>
+                        <p className="order-info">Status: <span style={{color:'green'}}>{order.status}</span></p>
                         <p className="order-info">Order Date: {new Date(order.createdAt).toLocaleDateString()}</p>
                         <p className="order-info">Order Time: {new Date(order.createdAt).toLocaleTimeString()}</p>
 

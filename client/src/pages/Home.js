@@ -12,7 +12,6 @@ const Home = () => {
 
     const notify = (item) => toast.success(`${item.productName} added to cart!`);;
 
-
     const [productList, setProductList] = useState([]);
     const cartCtx = useContext(cartContext);
     const authCtx = useContext(authContext);

@@ -17,7 +17,6 @@ const App = () => {
         const authCtx = useContext(authContext);
         const { isAuthenticated } = authCtx;
 
-        console.log("user Info : " , authCtx.user);
 
         return (
             <Routes>

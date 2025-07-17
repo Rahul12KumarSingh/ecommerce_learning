@@ -11,7 +11,6 @@ const cloudRoute = require('./routes/cloudRoutes') ;
 const paymentRoutes = require('./routes/paymentRoutes') ;
 const orderRoutes = require('./routes/orderRoutes') ;
 
-
 const connectDatabase = require('./config/dbMongo') ;
 const order = require('./models/order');
 const app = express() ;
@@ -31,8 +30,6 @@ app.use("/api/order" , orderRoutes) ;
 
 
 connectDatabase() ;
-
-
 
 app.get('/' , (req , res) => {
       res.send('Welcome to the server') ;

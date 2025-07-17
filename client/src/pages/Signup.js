@@ -29,9 +29,6 @@ const Signup = () => {
                 fileType,
             });
 
-            console.log("Presigned URL response:", response.data);
-
-
             const url = response.data.url;
             fileName = response.data.fileName;
 
@@ -43,8 +40,6 @@ const Signup = () => {
 
             const cloudfrontDomain = "https://d2me721pzztcbb.cloudfront.net";
             const publicUrl = `${cloudfrontDomain}/${fileName}`;
-
-            console.log("File uploaded successfully:", publicUrl);
 
             setProfileImage(publicUrl);
         }
@@ -59,7 +54,6 @@ const Signup = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-
         const payload = {
             name,
             email,
@@ -68,8 +62,7 @@ const Signup = () => {
         };
 
         const data = await register(payload);
-        console.log("signup data : ", data);
-
+        
         if (!data) {
             alert("signup failed....");
             return;
