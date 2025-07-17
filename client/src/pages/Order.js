@@ -9,7 +9,7 @@ export default function Order() {
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                const response = await axios.get('http://localhost:5000/api/order',
+                const response = await axios.get('https://ecommerce-learning-1.onrender.com/api/order',
                     { headers: { Authorization: `Bearer ${localStorage.getItem('token')}` } }
                 );
 

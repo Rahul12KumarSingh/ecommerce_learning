@@ -17,7 +17,7 @@ const AddProduct = () => {
         let fileType = file.type;
 
         try {
-            const response = await axios.post("http://localhost:5000/api/cloudService/getSignedUrl", {
+            const response = await axios.post("https://ecommerce-learning-1.onrender.com/api/cloudService/getSignedUrl", {
                 fileName,
                 fileType,
             });
@@ -52,7 +52,7 @@ const AddProduct = () => {
         };
 
         try {
-            const response = await axios.post('http://localhost:5000/api/products/add', payload, {
+            const response = await axios.post('https://ecommerce-learning-1.onrender.com/api/products/add', payload, {
                 headers: { Authorization: `Bearer ${localStorage.getItem('token')}` }
             });
 

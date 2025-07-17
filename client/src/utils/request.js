@@ -5,7 +5,7 @@ const axiosInstance = axios.create({});
 
 export const request = async (method, endpoint , payload , headers, params) => 
   {
-    const url = "http://localhost:5000/api" + endpoint ;
+    const url = "https://ecommerce-learning-1.onrender.com/api" + endpoint ;
 
     return axiosInstance({
         method: `${method}`,
